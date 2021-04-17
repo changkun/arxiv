@@ -1,0 +1,15 @@
+# Copyright 2020 Changkun Ou. All rights reserved.
+# Use of this source code is governed by a MIT
+# license that can be found in the LICENSE file.
+
+version: "3"
+services:
+  mongo:
+    restart: always
+    container_name: arxivdb
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+
