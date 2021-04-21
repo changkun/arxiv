@@ -1,9 +1,7 @@
 
-# arxiv sanity preserver
+# arxiv HCI preserver
 
-This project is a web interface that attempts to tame the overwhelming flood of papers on Arxiv. It allows researchers to keep track of recent papers, search for papers, sort papers by similarity to any paper, see recent popular papers, to add papers to a personal library, and to get personalized recommendations of (new or old) Arxiv papers. This code is currently running live at [www.arxiv-sanity.com/](http://www.arxiv-sanity.com/), where it's serving 25,000+ Arxiv papers from Machine Learning (cs.[CV|AI|CL|LG|NE]/stat.ML) over the last ~3 years. With this code base you could replicate the website to any of your favorite subsets of Arxiv by simply changing the categories in `fetch_papers.py`.
-
-![user interface](https://raw.github.com/karpathy/arxiv-sanity-preserver/master/ui.jpeg)
+This project is derived from the great [arxiv-sanity](www.arxiv-sanity.com), a web interface that attempts to tame the overwhelming flood of papers on Arxiv. It allows researchers to keep track of recent papers, search for papers, sort papers by similarity to any paper, see recent popular papers, to add papers to a personal library, and to get personalized recommendations of (new or old) Arxiv papers. This code is currently running live at [arxiv.changkun.de/](https://arxiv.changkun.de/), where it's serving 7500+ Arxiv papers from Human-Computer Interaction (cs.HC). With this code base you could replicate the website to any of your favorite subsets of Arxiv by simply changing the categories in `fetch_papers.py`.
 
 ### Code layout
 
@@ -59,13 +57,8 @@ You also want to create a `secret_key.txt` file and fill it with random text (se
 Running the site live is not currently set up for a fully automatic plug and play operation. Instead it's a bit of a manual process and I thought I should document how I'm keeping this code alive right now. I have a script that performs the following update early morning after arxiv papers come out (~midnight PST):
 
 ```bash
-python fetch_papers.py
-python download_pdfs.py
-python parse_pdf_to_text.py
-python thumb_pdf.py
-python analyze.py
-python buildsvm.py
-python make_cache.py
+make up          # run mongodb
+sh update.sh     # update papers
 ```
 
 I run the server in a screen session, so `screen -S serve` to create it (or `-r` to reattach to it) and run:
@@ -74,4 +67,4 @@ I run the server in a screen session, so `screen -S serve` to create it (or `-r`
 python serve.py --prod --port 80
 ```
 
-The server will load the new files and begin hosting the site. Note that on some systems you can't use port 80 without `sudo`. Your two options are to use `iptables` to reroute ports or you can use [setcap](http://stackoverflow.com/questions/413807/is-there-a-way-for-non-root-processes-to-bind-to-privileged-ports-1024-on-l) to elavate the permissions of your `python` interpreter that runs `serve.py`. In this case I'd recommend careful permissions and maybe virtualenv, etc.
+The server will load the new files and begin hosting the site.
