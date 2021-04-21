@@ -1,7 +1,7 @@
 
-# arxiv HCI preserver
+# changkun's arXiv preserver
 
-This project is derived from the great [arxiv-sanity](www.arxiv-sanity.com), a web interface that attempts to tame the overwhelming flood of papers on Arxiv. It allows researchers to keep track of recent papers, search for papers, sort papers by similarity to any paper, see recent popular papers, to add papers to a personal library, and to get personalized recommendations of (new or old) Arxiv papers. This code is currently running live at [arxiv.changkun.de/](https://arxiv.changkun.de/), where it's serving 7500+ Arxiv papers from Human-Computer Interaction (cs.HC). With this code base you could replicate the website to any of your favorite subsets of Arxiv by simply changing the categories in `fetch_papers.py`.
+This project is derived from the great [arxiv-sanity](www.arxiv-sanity.com), a web interface that attempts to tame the overwhelming flood of papers on Arxiv. It allows researchers to keep track of recent papers, search for papers, sort papers by similarity to any paper, see recent popular papers, to add papers to a personal library, and to get personalized recommendations of (new or old) Arxiv papers. This code is currently running live at [arxiv.changkun.de/](https://arxiv.changkun.de/), where it's serving 7500+ Arxiv papers from **Human-Computer Interaction (cs.HC), Computer Graphics (cs.GR), and Computational Geometry (cs.CG)**. With this code base you could replicate the website to any of your favorite subsets of Arxiv by simply changing the categories in `fetch_papers.py`.
 
 ### Code layout
 
