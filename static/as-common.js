@@ -2,7 +2,7 @@
 
 // helper function so that we can access keys in url bar
 var QueryString = function () {
-  // This function is anonymous, is executed immediately and 
+  // This function is anonymous, is executed immediately and
   // the return value is assigned to QueryString!
   var query_string = {};
   var query = window.location.search.substring(1);
@@ -30,7 +30,7 @@ function build_ocoins_str(p) {
   var ocoins_info = {
     "ctx_ver": "Z39.88-2004",
     "rft_val_fmt": "info:ofi/fmt:kev:mtx:journal",
-    "rfr_id": "info:sid/arxiv-sanity.com:arxiv-sanity",
+    "rfr_id": "info:sid/arxiv.changkun.de:arxiv.changkun.de",
 
     "rft_id": p.link,
     "rft.atitle": p.title,
@@ -129,8 +129,9 @@ function addPapers(num, dynamic) {
     var pdf_link = p.link.replace("abs", "pdf"); // convert from /abs/ link to /pdf/ link. url hacking. slightly naughty
     if(pdf_link === p.link) { var pdf_url = pdf_link } // replace failed, lets fall back on arxiv landing page
     else { var pdf_url = pdf_link + '.pdf'; }
+    pdf_url = pdf_url.replace("http://arxiv.org/", "https://arxiv.changkun.de/static/");
     ldiv.append('a').attr('href', pdf_url).attr('target', '_blank').html('pdf');
-    
+
     // rank by tfidf similarity
     ldiv.append('br');
     var similar_span = ldiv.append('span').classed('sim', true).attr('id', 'sim'+p.pid).html('show similar');
@@ -138,11 +139,6 @@ function addPapers(num, dynamic) {
       return function() { window.location.replace('/' + pid); }
     }(p.pid)); // closer over the paper id
 
-    // var review_span = ldiv.append('span').classed('sim', true).attr('style', 'margin-left:5px; padding-left: 5px; border-left: 1px solid black;').append('a').attr('href', 'http://www.shortscience.org/paper?bibtexKey='+p.pid).html('review');
-    var discuss_text = p.num_discussion === 0 ? 'discuss' : 'discuss [' + p.num_discussion + ']';
-    var discuss_color = p.num_discussion === 0 ? 'black' : 'red';
-    var review_span = ldiv.append('span').classed('sim', true).attr('style', 'margin-left:5px; padding-left: 5px; border-left: 1px solid black;')
-                      .append('a').attr('href', 'discuss?id='+strip_version(p.pid)).attr('style', 'color:'+discuss_color).html(discuss_text);
     ldiv.append('br');
 
     var lib_state_img = p.in_library === 1 ? 'static/saved.png' : 'static/save.png';
@@ -209,7 +205,7 @@ function addPapers(num, dynamic) {
             elt.append('div').append('a').attr('href', 'https://twitter.com/' + tname + '/status/' + tid).attr('target', '_blank')
                                          .attr('style', 'font-weight:bold; color:#05f; text-decoration:none;').text('@' + tname + ':'); // show tweet source
             elt.append('div').text(txt) // show tweet text
-            imgelt.attr('style', 'border: 2px solid #05f;'); 
+            imgelt.attr('style', 'border: 2px solid #05f;');
           }
         }(tcontentdiv, t.text, t.screen_name, t.id, timgdiv)
         timgdiv.on('mouseover', act_fun);
