@@ -13,7 +13,7 @@ num_recommendations = 1000 # papers to recommend per user
 # -----------------------------------------------------------------------------
 
 if not os.path.isfile(Config.database_path):
-  print("the database file as.db should exist. You can create an empty database with sqlite3 as.db < schema.sql")
+  print("the database file data/db/as.db should exist. You can create an empty database with sqlite3 data/db/as.db < schema.sql")
   sys.exit()
 
 sqldb = sqlite3.connect(Config.database_path)
@@ -46,7 +46,7 @@ for ii,u in enumerate(users):
   lib = query_db('''select * from library where user_id = ?''', [uid])
   pids = [x['paper_id'] for x in lib] # raw pids without version
   posix = [xtoi[p] for p in pids if p in xtoi]
-  
+
   if not posix:
     continue # empty library for this user maybe?
 

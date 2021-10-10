@@ -1,6 +1,6 @@
 """
 Queries arxiv API and downloads papers (the query is a parameter).
-The script is intended to enrich an existing database pickle (by default db.p),
+The script is intended to enrich an existing database pickle (by default data/db/db.p),
 so this file will be loaded first, and then new results will be added to it.
 """
 
@@ -15,8 +15,8 @@ import feedparser
 from utils import Config, safe_pickle_dump
 
 def encode_feedparser_dict(d):
-  """ 
-  helper function to get rid of feedparser bs with a deep copy. 
+  """
+  helper function to get rid of feedparser bs with a deep copy.
   I hate when libs wrap simple things in their own classes.
   """
   if isinstance(d, feedparser.FeedParserDict) or isinstance(d, dict):
@@ -33,7 +33,7 @@ def encode_feedparser_dict(d):
     return d
 
 def parse_arxiv_url(url):
-  """ 
+  """
   examples is http://arxiv.org/abs/1512.08756v2
   we want to extract the raw id and the version
   """

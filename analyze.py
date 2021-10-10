@@ -1,6 +1,6 @@
 """
 Reads txt files of all papers and computes tfidf vectors for all papers.
-Dumps results to file tfidf.p
+Dumps results to file data/db/tfidf.p
 """
 import os
 import pickle
@@ -39,11 +39,11 @@ for pid,j in db.items():
 print("in total read in %d text files out of %d db entries." % (len(txt_paths), len(db)))
 
 # compute tfidf vectors with scikits
-v = TfidfVectorizer(input='content', 
-        encoding='utf-8', decode_error='replace', strip_accents='unicode', 
-        lowercase=True, analyzer='word', stop_words='english', 
+v = TfidfVectorizer(input='content',
+        encoding='utf-8', decode_error='replace', strip_accents='unicode',
+        lowercase=True, analyzer='word', stop_words='english',
         token_pattern=r'(?u)\b[a-zA-Z_][a-zA-Z0-9_]+\b',
-        ngram_range=(1, 2), max_features = max_features, 
+        ngram_range=(1, 2), max_features = max_features,
         norm='l2', use_idf=True, smooth_idf=True, sublinear_tf=True,
         max_df=1.0, min_df=1)
 

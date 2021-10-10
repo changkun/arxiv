@@ -1,17 +1,13 @@
 import os
-import json
 import time
 import pickle
 import argparse
 import dateutil.parser
-from random import shuffle, randrange, uniform
+from random import randrange, uniform
 
-import numpy as np
 from sqlite3 import dbapi2 as sqlite3
-from hashlib import md5
 from flask import Flask, request, session, url_for, redirect, \
-     render_template, abort, g, flash, _app_ctx_stack
-# from flask_limiter import Limiter
+     render_template, g, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymongo
 
@@ -32,7 +28,7 @@ app.config.from_object(__name__)
 # -----------------------------------------------------------------------------
 # utilities for database interactions
 # -----------------------------------------------------------------------------
-# to initialize the database: sqlite3 as.db < schema.sql
+# to initialize the database: sqlite3 data/db/as.db < schema.sql
 def connect_db():
   sqlite_db = sqlite3.connect(Config.database_path)
   sqlite_db.row_factory = sqlite3.Row # to return dicts rather than tuples
@@ -650,9 +646,9 @@ if __name__ == "__main__":
   print(args)
 
   if not os.path.isfile(Config.database_path):
-    print('did not find as.db, trying to create an empty database from schema.sql...')
+    print('did not find data/db/as.db, trying to create an empty database from schema.sql...')
     print('this needs sqlite3 to be installed!')
-    os.system('sqlite3 as.db < schema.sql')
+    os.system('sqlite3 data/db/as.db < schema.sql')
 
   print('loading the paper database', Config.db_serve_path)
   db = pickle.load(open(Config.db_serve_path, 'rb'))

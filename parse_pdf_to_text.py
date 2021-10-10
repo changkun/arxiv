@@ -9,7 +9,6 @@ import os
 import sys
 import time
 import shutil
-import pickle
 
 from utils import Config
 
