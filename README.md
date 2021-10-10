@@ -1,29 +1,17 @@
 
 # changkun's arXiv preserver
 
-This project is derived from the great [arxiv-sanity](www.arxiv-sanity.com), a web interface that attempts to tame the overwhelming flood of papers on Arxiv. It allows researchers to keep track of recent papers, search for papers, sort papers by similarity to any paper, see recent popular papers, to add papers to a personal library, and to get personalized recommendations of (new or old) Arxiv papers. This code is currently running live at [arxiv.changkun.de/](https://arxiv.changkun.de/), where it's serving 7500+ Arxiv papers from **Human-Computer Interaction (cs.HC), Computer Graphics (cs.GR), and Computational Geometry (cs.CG)**. With this code base you could replicate the website to any of your favorite subsets of Arxiv by simply changing the categories in `fetch_papers.py`.
+This project is derived from the great [arxiv-sanity](www.arxiv-sanity.com), a web interface that attempts to tame the overwhelming flood of papers on Arxiv. It allows researchers to keep track of recent papers, search for papers, sort papers by similarity to any paper, see recent popular papers, to add papers to a personal library, and to get personalized recommendations of (new or old) Arxiv papers. This code is currently running live at [arxiv.changkun.de/](https://arxiv.changkun.de/), where it's serving Arxiv papers from **Human-Computer Interaction (cs.HC), Computer Graphics (cs.GR), and Computational Geometry (cs.CG)**. With this code base you could replicate the website to any of your favorite subsets of Arxiv by simply changing the categories in `fetch_papers.py`.
 
-### Code layout
 
-There are two large parts of the code:
+## Dependencies
 
-**Indexing code**. Uses Arxiv API to download the most recent papers in any categories you like, and then downloads all papers, extracts all text, creates tfidf vectors based on the content of each paper. This code is therefore concerned with the backend scraping and computation: building up a database of arxiv papers, calculating content vectors, creating thumbnails, computing SVMs for people, etc.
+- [ImageMagick](http://www.imagemagick.org/script/index.php) and [pdftotext](https://poppler.freedesktop.org/)
+  + `sudo apt-get install imagemagick poppler-utils`
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-**User interface**. Then there is a web server (based on Flask/Tornado/sqlite) that allows searching through the database and filtering papers by similarity, etc.
-
-### Dependencies
-
-Several: You will need numpy, feedparser (to process xml files), scikit learn (for tfidf vectorizer, training of SVM), flask (for serving the results), flask_limiter, and tornado (if you want to run the flask server in production). Also dateutil, and scipy. And sqlite3 for database (accounts, library support, etc.). Most of these are easy to get through `pip`, e.g.:
-
-```bash
-$ virtualenv env                # optional: use virtualenv
-$ source env/bin/activate       # optional: use virtualenv
-$ pip install -r requirements.txt
-```
-
-You will also need [ImageMagick](http://www.imagemagick.org/script/index.php) and [pdftotext](https://poppler.freedesktop.org/), which you can install on Ubuntu as `sudo apt-get install imagemagick poppler-utils`. Bleh, that's a lot of dependencies isn't it.
-
-### Processing pipeline
+## First Setup (Processing pipeline)
 
 The processing pipeline requires you to run a series of scripts, and at this stage I really encourage you to manually inspect each script, as they may contain various inline settings you might want to change. In order, the processing pipeline is:
 
@@ -40,29 +28,26 @@ The processing pipeline requires you to run a series of scripts, and at this sta
 `[initandlisten] waiting for connections on port <port> `
 9. Run the flask server with `serve.py`. Visit localhost:5000 and enjoy sane viewing of papers!
 
-I have a simple shell script that runs these commands one by one, and every day I run this script to fetch new papers, incorporate them into the database, and recompute all tfidf vectors/classifiers. More details on this process below.
-
 **protip: numpy/BLAS**: The script `analyze.py` does quite a lot of heavy lifting with numpy. I recommend that you carefully set up your numpy to use BLAS (e.g. OpenBLAS), otherwise the computations will take a long time. With ~25,000 papers and ~5000 users the script runs in several hours on my current machine with a BLAS-linked numpy.
 
-### Running online
-
-If you'd like to run the flask server online (e.g. AWS) run it as `python serve.py --prod`.
-
-You also want to create a `secret_key.txt` file and fill it with random text (see top of `serve.py`).
-
-### Current workflow
-
-Running the site live is not currently set up for a fully automatic plug and play operation. Instead it's a bit of a manual process and I thought I should document how I'm keeping this code alive right now. I have a script that performs the following update early morning after arxiv papers come out (~midnight PST):
+Once the local setup is working. Then we can build a docker image
+so that the server functionality is working:
 
 ```bash
-make up          # run mongodb
-sh update.sh     # update papers
+make build
+make up
 ```
 
-I run the server in a screen session, so `screen -S serve` to create it (or `-r` to reattach to it) and run:
+### Daily Update
+
+Run the following command will update the website:
 
 ```bash
-python serve.py --prod --port 80
+make update
 ```
 
-The server will load the new files and begin hosting the site.
+Setting up a cron task should be ideal to execute the update command:
+
+```
+0 2 * * * cd /media/changkun/ExtensionField1/arxiv-hci-preserver && sh update.sh
+```

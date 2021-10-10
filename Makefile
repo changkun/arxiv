@@ -8,6 +8,5 @@ down:
 	docker-compose down
 update:
 	sh update.sh
-	docker-compose restart arxiv
 build:
 	docker build -t arxiv-preserver:latest .

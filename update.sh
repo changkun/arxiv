@@ -9,3 +9,4 @@ python thumb_pdf.py
 python analyze.py
 python buildsvm.py
 python make_cache.py
+docker-compose restart arxiv
