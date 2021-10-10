@@ -1,3 +1,7 @@
+# Copyright 2021 Changkun Ou. All rights reserved.
+# Use of this source code is governed by a MIT
+# license that can be found in the LICENSE file.
+
 """
 Use imagemagick to convert all pfds to a sequence of thumbnail images
 requires: sudo apt-get install imagemagick
@@ -29,7 +33,7 @@ for i,p in enumerate(pdf_files):
   pdf_path = os.path.join(pdf_dir, p)
   thumb_path = os.path.join(Config.thumbs_dir, p + '.jpg')
 
-  if os.path.isfile(thumb_path): 
+  if os.path.isfile(thumb_path):
     print("skipping %s, thumbnail already exists." % (pdf_path, ))
     continue
 
@@ -39,7 +43,7 @@ for i,p in enumerate(pdf_files):
   # tile them horizontally, use JPEG compression 80, trim the borders for each image
   #cmd = "montage %s[0-7] -mode Concatenate -tile x1 -quality 80 -resize x230 -trim %s" % (pdf_path, "thumbs/" + f + ".jpg")
   #print "EXEC: " + cmd
-  
+
   # nvm, below using a roundabout alternative that is worse and requires temporary files, yuck!
   # but i found that it succeeds more often. I can't remember wha thappened anymore but I remember
   # that the version above, while more elegant, had some problem with it on some pdfs. I think.

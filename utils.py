@@ -1,3 +1,7 @@
+# Copyright 2021 Changkun Ou. All rights reserved.
+# Use of this source code is governed by a MIT
+# license that can be found in the LICENSE file.
+
 from contextlib import contextmanager
 
 import os
@@ -25,7 +29,6 @@ class Config(object):
     serve_cache_path = 'data/db/serve_cache.p'
 
     beg_for_hosting_money = 1 # do we beg the active users randomly for money? 0 = no.
-    banned_path = 'banned.txt' # for twitter users who are banned
     tmp_dir = 'tmp'
 
 # Context managers for atomic writes courtesy of

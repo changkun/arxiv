@@ -1,3 +1,7 @@
+# Copyright 2021 Changkun Ou. All rights reserved.
+# Use of this source code is governed by a MIT
+# license that can be found in the LICENSE file.
+
 """
 Queries arxiv API and downloads papers (the query is a parameter).
 The script is intended to enrich an existing database pickle (by default data/db/db.p),

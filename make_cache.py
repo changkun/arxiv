@@ -1,3 +1,7 @@
+# Copyright 2021 Changkun Ou. All rights reserved.
+# Use of this source code is governed by a MIT
+# license that can be found in the LICENSE file.
+
 """
 computes various cache things on top of db.py so that the server
 (running from serve.py) can start up and serve faster when restarted.

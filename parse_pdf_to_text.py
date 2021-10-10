@@ -1,3 +1,7 @@
+# Copyright 2021 Changkun Ou. All rights reserved.
+# Use of this source code is governed by a MIT
+# license that can be found in the LICENSE file.
+
 """
 Very simple script that simply iterates over all files data/pdf/f.pdf
 and create a file data/txt/f.pdf.txt that contains the raw text, extracted

@@ -187,35 +187,6 @@ function addPapers(num, dynamic) {
       }
     }
 
-    // create the tweets
-    if(ix < tweets.length) {
-      var ix_tweets = tweets[ix].tweets; // looks a little weird, i know
-      var tdiv = div.append('div').classed('twdiv', true);
-      var tcontentdiv = div.append('div').classed('twcont', true);
-      tdiv.append('div').classed('tweetcount', true).text(tweets[ix].num_tweets + ' tweets:');
-      for(var j=0,m=ix_tweets.length;j<m;j++) {
-        var t = ix_tweets[j];
-        var border_col = t.ok ? '#3c3' : '#fff'; // distinguish non-boring tweets visually making their border green
-        var timgdiv = tdiv.append('img').classed('twimg', true).attr('src', t.image_url)
-                          .attr('style', 'border: 2px solid ' + border_col + ';');
-        var act_fun = function(elt, txt, tname, tid, imgelt){  // mouseover handler: show tweet text.
-          return function() {
-            elt.attr('style', 'display:block;'); // make visible
-            elt.html(''); // clear it
-            elt.append('div').append('a').attr('href', 'https://twitter.com/' + tname + '/status/' + tid).attr('target', '_blank')
-                                         .attr('style', 'font-weight:bold; color:#05f; text-decoration:none;').text('@' + tname + ':'); // show tweet source
-            elt.append('div').text(txt) // show tweet text
-            imgelt.attr('style', 'border: 2px solid #05f;');
-          }
-        }(tcontentdiv, t.text, t.screen_name, t.id, timgdiv)
-        timgdiv.on('mouseover', act_fun);
-        timgdiv.on('click', act_fun);
-        timgdiv.on('mouseout', function(elt, col){
-          return function() { elt.attr('style', 'border: 2px solid ' + col + ';'); }
-        }(timgdiv, border_col));
-      }
-    }
-
     if(render_format == 'paper' && ix === 0) {
       // lets insert a divider/message
       div.append('div').classed('paperdivider', true).html('Most similar papers:');

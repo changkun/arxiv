@@ -1,3 +1,7 @@
+# Copyright 2021 Changkun Ou. All rights reserved.
+# Use of this source code is governed by a MIT
+# license that can be found in the LICENSE file.
+
 import os
 import time
 import pickle
@@ -399,22 +403,6 @@ def top():
                         msg='Top papers based on people\'s libraries:')
   return render_template('main.html', **ctx)
 
-@app.route('/toptwtr', methods=['GET'])
-def toptwtr():
-  """ return top papers """
-  ttstr = request.args.get('timefilter', 'day') # default is day
-  tweets_top = {'day':tweets_top1, 'week':tweets_top7, 'month':tweets_top30}[ttstr]
-  cursor = tweets_top.find().sort([('vote', pymongo.DESCENDING)]).limit(100)
-  papers, tweets = [], []
-  for rec in cursor:
-    if rec['pid'] in db:
-      papers.append(db[rec['pid']])
-      tweet = {k:v for k,v in rec.items() if k != '_id'}
-      tweets.append(tweet)
-  ctx = default_context(papers, render_format='toptwtr', tweets=tweets,
-                        msg='Top papers mentioned on Twitter over last ' + ttstr + ':')
-  return render_template('main.html', **ctx)
-
 @app.route('/library')
 def library():
   """ render user's library """
@@ -640,6 +628,7 @@ if __name__ == "__main__":
 
   parser = argparse.ArgumentParser()
   parser.add_argument('-p', '--prod', dest='prod', action='store_true', help='run in prod?')
+  parser.add_argument('-db', '--database', dest='database', type=str, default='localhost:27017', help='mongodb address')
   parser.add_argument('-r', '--num_results', dest='num_results', type=int, default=200, help='number of results to return per query')
   parser.add_argument('--port', dest='port', type=int, default=5000, help='port to serve on')
   args = parser.parse_args()
@@ -673,7 +662,7 @@ if __name__ == "__main__":
   SEARCH_DICT = cache['search_dict']
 
   print('connecting to mongodb...')
-  client = pymongo.MongoClient()
+  client = pymongo.MongoClient(host=[args.database])
   mdb = client.arxiv
   tweets_top1 = mdb.tweets_top1
   tweets_top7 = mdb.tweets_top7

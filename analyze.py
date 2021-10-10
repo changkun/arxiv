@@ -1,3 +1,7 @@
+# Copyright 2021 Changkun Ou. All rights reserved.
+# Use of this source code is governed by a MIT
+# license that can be found in the LICENSE file.
+
 """
 Reads txt files of all papers and computes tfidf vectors for all papers.
 Dumps results to file data/db/tfidf.p
