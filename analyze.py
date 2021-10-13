@@ -31,7 +31,10 @@ for pid,j in db.items():
   txt_path = os.path.join('data', 'txt', idvv) + '.pdf.txt'
   if os.path.isfile(txt_path): # some pdfs dont translate to txt
     with open(txt_path, 'r') as f:
-      txt = f.read()
+      try:
+        txt = f.read()
+      except UnicodeDecodeError:
+        txt = ''
     if len(txt) > 1000 and len(txt) < 500000: # 500K is VERY conservative upper bound
       txt_paths.append(txt_path) # todo later: maybe filter or something some of them
       pids.append(idvv)
