@@ -8,7 +8,6 @@ The script is intended to enrich an existing database pickle (by default data/db
 so this file will be loaded first, and then new results will be added to it.
 """
 
-import os
 import time
 import pickle
 import random

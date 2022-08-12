@@ -5,7 +5,6 @@
 version: "3"
 services:
   arxiv:
-    restart: always
     container_name: arxivprod
     image: arxiv-preserver:latest
     ports:
@@ -15,7 +14,6 @@ services:
     depends_on:
       - mongo
   mongo:
-    restart: always
     container_name: arxivdb
     image: mongo:latest
     ports:

@@ -1,0 +1,12 @@
+---
+dbpath: data/db/db.p
+dirPdf: data/pdf
+dirTxt: data/txt
+dirThumbs: data/thumbs
+tfidf: data/db/tfidf.p
+tfidf_meta: data/db/tfidf_meta.p
+sim_dict: data/db/sim_dict.p
+user_sim: data/db/user_sim.p
+db_serve_path: data/db/db2.p
+database_path: data/db/as.db
+serve_cache_path: data/db/serve_cache.p
